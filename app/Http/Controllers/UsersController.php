@@ -81,6 +81,6 @@ class UsersController extends Controller
 
     public function user()
     {
-        \dd(auth()->user());
+        \dd(auth()->guard('api')->check());
     }
 }
