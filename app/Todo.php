@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model
 {
-    protected $table = 'todos';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -17,12 +15,4 @@ class Todo extends Model
         'name'
     ];
 
-       /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-    ];
 }

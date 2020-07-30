@@ -13,19 +13,21 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::group(['prefix' => 'v1'], function () {
-    Route::post('/login', 'UsersController@login');
-    Route::post('/register', 'UsersController@register');
-    Route::get('/logout', 'UsersController@logout')->middleware('auth:api');
-    Route::get('/login', 'UsersController@user');
-});
-// Resource Endpoints
 Route::group([
     'prefix' => 'v1'
-], function ($router) {
-    Route::apiResource('todo', 'TodoController');
+], function () {
+    Route::post('/login', 'UsersController@login');
+    Route::post('/register', 'UsersController@register');
+  
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::get('/logout', 'UsersController@logout');
+        Route::get('/user', 'UsersController@user');
+        Route::apiResource('todo', 'TodoController');
+    });
 });
+
 // Not Found
 Route::fallback(function () {
     return response()->json(['message' => 'Resource not found.'], 404);

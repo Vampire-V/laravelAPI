@@ -81,6 +81,7 @@ class UsersController extends Controller
 
     public function user()
     {
-        \dd(Auth::user(),auth()->guard('api')->check());
+        $user = Auth::user();
+        return response()->json(['success' => $user], 200);
     }
 }
