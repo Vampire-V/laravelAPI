@@ -26,6 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Passport::routes();
-        
+        // โทเค็นหมดอายุใน
+        Passport::tokensExpireIn(now()->addMinutes(1));
+        // รีเฟรชโทเคนหมดอายุใน
+        Passport::refreshTokensExpireIn(now()->addMinutes(1));
+        // โทเค็นการเข้าถึงส่วนบุคคลหมดอายุ
+        Passport::personalAccessTokensExpireIn(now()->addMinutes(1));
     }
 }

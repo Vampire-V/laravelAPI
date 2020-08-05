@@ -17,7 +17,4 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-// Catches all other web routes.
-Route::get('{slug}', function () {
-    return view('index');
-})->where('slug', '^(?!api).*$');
+
