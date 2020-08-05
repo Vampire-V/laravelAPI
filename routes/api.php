@@ -21,7 +21,7 @@ Route::group([
     Route::post('/login', 'UsersController@login');
     Route::post('/register', 'UsersController@register');
     Route::group([
-        'middleware' => ['auth:api', 'role:manager,developer','active.token']
+        'middleware' => ['auth:api', 'role:shop,user','active.token']
     ], function () {
         Route::get('/logout', 'UsersController@logout');
         Route::get('/user', 'UsersController@user');

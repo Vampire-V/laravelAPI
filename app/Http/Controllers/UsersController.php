@@ -45,6 +45,7 @@ class UsersController extends Controller
             // 'phone' => 'required|unique:users|regex:/(0)[0-9]{9}/',
             'email' => 'required|email|unique:users',
             'password' => 'required',
+            'role' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -52,19 +53,24 @@ class UsersController extends Controller
                 'message' => $validator->errors(),
             ], 401);
         }
-        $dev_role = Role::where('slug', 'developer')->first();
-        $dev_perm = Permission::where('slug', 'create-tasks')->first();
+        try {
+            $dev_role = Role::where('slug', $request->role)->first();
+            // $dev_perm = Permission::where('slug', 'create-tasks')->first();
+    
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->save();
+            $user->roles()->attach($dev_role);
+            // $user->permissions()->attach($dev_perm);
+    
+            $success['token'] = $user->createToken('appToken')->accessToken;
+        } catch (\Throwable $th) {
+            throw $th;
+            return $th;
+        }
 
-        // \dd($dev_role,$dev_perm);
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-        $user->roles()->attach($dev_role);
-        $user->permissions()->attach($dev_perm);
-
-        $success['token'] = $user->createToken('appToken')->accessToken;
         return response()->json([
             'success' => true,
             'token' => $success,
